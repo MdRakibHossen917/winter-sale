@@ -1,0 +1,40 @@
+===========================================
+🚀 সার্ভার চালু করুন - সহজ উপায়
+===========================================
+
+1. Terminal/PowerShell খুলুন
+
+2. এই command run করুন:
+
+   cd E:\Cursor\wintersale\server
+   npm run dev
+
+3. আপনি দেখবেন:
+
+   ✅ Connected to MongoDB successfully
+   🚀 Server running on port 5000
+
+4. এই terminal বন্ধ করবেন না!
+
+5. নতুন terminal-এ frontend চালু করুন:
+
+   cd E:\Cursor\wintersale
+   npm run dev
+
+6. Browser-এ যান: http://localhost:5173
+
+===========================================
+⚠️ যদি Error আসে:
+===========================================
+
+MongoDB Error হলে:
+- MongoDB Atlas-এ যান
+- Network Access → Add IP Address
+- "Allow Access from Anywhere" (0.0.0.0/0) add করুন
+
+Port Error হলে:
+- .env file-এ PORT=5001 করুন
+- src/utils/api.js-এ port 5001 করুন
+
+===========================================
+

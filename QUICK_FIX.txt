@@ -1,0 +1,28 @@
+===========================================
+FIREBASE API KEY ERROR - QUICK FIX
+===========================================
+
+এই error Firebase credentials না থাকলে হয়।
+
+SOLUTION (2 মিনিট):
+
+1. Firebase Console: https://console.firebase.google.com/
+2. Project তৈরি করুন
+3. Web app register করুন
+4. Config values copy করুন
+5. Project root-এ .env file তৈরি করুন:
+
+   VITE_FIREBASE_API_KEY=আপনার_API_KEY
+   VITE_FIREBASE_AUTH_DOMAIN=আপনার_AUTH_DOMAIN
+   VITE_FIREBASE_PROJECT_ID=আপনার_PROJECT_ID
+   VITE_FIREBASE_STORAGE_BUCKET=আপনার_STORAGE_BUCKET
+   VITE_FIREBASE_MESSAGING_SENDER_ID=আপনার_MESSAGING_SENDER_ID
+   VITE_FIREBASE_APP_ID=আপনার_APP_ID
+
+6. Authentication enable করুন (Email/Password & Google)
+7. Server restart করুন: npm run dev
+
+DETAILED GUIDE: START_HERE.md দেখুন
+
+===========================================
+
