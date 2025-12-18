@@ -14,14 +14,11 @@ import NotFound from '../pages/NotFound';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import Marquee from '../components/Marquee';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
-        {/* Marquee - Shows offers scrolling */}
-        <Marquee />
         {/* Navbar - Shows on all pages */}
         <Navbar />
         

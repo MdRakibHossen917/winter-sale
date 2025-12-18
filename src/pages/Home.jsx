@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
 import FlashSaleProductCard from '../components/FlashSaleProductCard';
+import Marquee from '../components/Marquee';
 import { products } from '../utils/products';
 
 const Home = () => {
@@ -66,8 +67,10 @@ const Home = () => {
         <meta property="og:type" content="website" />
       </Helmet>
       <div className="min-h-screen">
+        {/* Marquee - Shows offers scrolling */}
+        <Marquee />
         {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-12 md:py-12 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-12 md:py-10 overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
@@ -107,7 +110,7 @@ const Home = () => {
                 <img
                   src="https://i.ibb.co.com/fG4ct9RH/Gemini-Generated-Image-mko1f7mko1f7mko1.png"
                   alt="Pure Products"
-                  className="w-full h-[500px] rounded-xl shadow-2xl object-cover"
+                  className="w-full h-[400px] rounded-xl shadow-2xl object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-800/20 to-transparent rounded-2xl"></div>
               </div>
