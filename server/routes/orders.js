@@ -252,7 +252,8 @@ router.put('/:id', [
   body('customerName').optional().notEmpty(),
   body('customerEmail').optional().isEmail(),
   body('customerPhone').optional().notEmpty(),
-  body('customerAddress').optional().notEmpty()
+  body('customerAddress').optional().notEmpty(),
+  body('specialNote').optional().isString()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -297,6 +298,7 @@ router.put('/:id', [
       ...(req.body.customerAddress && { customerAddress: req.body.customerAddress }),
       ...(req.body.city && { city: req.body.city }),
       ...(req.body.postalCode && { postalCode: req.body.postalCode }),
+      ...(req.body.specialNote !== undefined && { specialNote: req.body.specialNote }),
       ...(req.body.paymentMethod && { paymentMethod: req.body.paymentMethod })
     };
 

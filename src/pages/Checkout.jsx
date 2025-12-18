@@ -24,6 +24,7 @@ const Checkout = () => {
     address: '',
     city: 'Dhaka',
     postalCode: '1200',
+    specialNote: '',
   });
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('sslcommerce'); // 'sslcommerce' or 'bkash'
@@ -187,6 +188,7 @@ const Checkout = () => {
           customerAddress: formData.address.trim(),
           city: formData.city.trim(),
           postalCode: formData.postalCode.trim() || '1200',
+          specialNote: formData.specialNote.trim() || '',
           paymentMethod: 'bkash',
           transactionId: bkashPaymentData.merchantInvoiceNumber,
           status: 'paid',
@@ -309,6 +311,7 @@ const Checkout = () => {
           customerAddress: formData.address.trim(),
           city: formData.city.trim(),
           postalCode: formData.postalCode.trim() || '1200',
+          specialNote: formData.specialNote.trim() || '',
           paymentMethod: 'sslcommerce',
           transactionId: paymentData.tran_id,
           status: 'paid',
@@ -533,6 +536,24 @@ const Checkout = () => {
                     placeholder="1200"
                   />
                 </div>
+              </div>
+
+              {/* Special Note */}
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-700">
+                  Special Note / Instructions (Optional)
+                </label>
+                <textarea
+                  name="specialNote"
+                  value={formData.specialNote}
+                  onChange={handleInputChange}
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder="Any special instructions or notes for your order (e.g., delivery time preference, gift message, etc.)"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Add any special instructions or notes for your order
+                </p>
               </div>
 
               {/* Payment Method Selection */}

@@ -100,6 +100,7 @@ const MyOrders = () => {
       customerAddress: order.customerAddress || '',
       city: order.city || '',
       postalCode: order.postalCode || '',
+      specialNote: order.specialNote || '',
       userEmail: authenticatedUser?.email || ''
     });
   };
@@ -114,7 +115,8 @@ const MyOrders = () => {
       const updateData = {
         ...editFormData,
         items: editingOrder.items,
-        totalAmount: editingOrder.totalAmount
+        totalAmount: editingOrder.totalAmount,
+        specialNote: editFormData.specialNote || ''
       };
 
       const response = await ordersAPI.update(editingOrder._id || editingOrder.id, updateData);
@@ -342,6 +344,21 @@ const MyOrders = () => {
                       )}
                     </div>
                   </div>
+
+                  {/* Special Note */}
+                  {order.specialNote && order.specialNote.trim() && (
+                    <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                      <p className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Special Note / Instructions:
+                      </p>
+                      <p className="text-gray-700 text-sm whitespace-pre-wrap">
+                        {order.specialNote}
+                      </p>
+                    </div>
+                  )}
                   
                   {/* Edit and Delete Buttons */}
                   <div className="flex gap-3 mt-4">
