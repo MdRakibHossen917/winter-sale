@@ -12,6 +12,9 @@ const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
   useEffect(() => {
     if (!authenticatedUser) {
@@ -86,6 +89,65 @@ const MyOrders = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEdit = (order) => {
+    setEditingOrder(order);
+    setEditFormData({
+      customerName: order.customerName || '',
+      customerPhone: order.customerPhone || '',
+      customerAddress: order.customerAddress || '',
+      city: order.city || '',
+      postalCode: order.postalCode || '',
+      userEmail: authenticatedUser?.email || ''
+    });
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingOrder) return;
+
+    try {
+      toast.loading('Updating order...', { id: 'update-order' });
+      
+      const updateData = {
+        ...editFormData,
+        items: editingOrder.items,
+        totalAmount: editingOrder.totalAmount
+      };
+
+      const response = await ordersAPI.update(editingOrder._id || editingOrder.id, updateData);
+      
+      if (response.success) {
+        toast.success('Order updated successfully!', { id: 'update-order' });
+        setEditingOrder(null);
+        setEditFormData({});
+        fetchOrders(); // Refresh orders
+      }
+    } catch (error) {
+      console.error('Update order error:', error);
+      toast.error(error.message || 'Failed to update order', { id: 'update-order' });
+    }
+  };
+
+  const handleDelete = async (orderId) => {
+    if (!showDeleteConfirm) return;
+
+    try {
+      toast.loading('Deleting order...', { id: 'delete-order' });
+      
+      const email = authenticatedUser?.email;
+      const response = await ordersAPI.delete(orderId, email);
+      
+      if (response.success) {
+        toast.success('Order deleted successfully!', { id: 'delete-order' });
+        setShowDeleteConfirm(null);
+        fetchOrders(); // Refresh orders
+      }
+    } catch (error) {
+      console.error('Delete order error:', error);
+      toast.error(error.message || 'Failed to delete order', { id: 'delete-order' });
     }
   };
 
@@ -258,7 +320,7 @@ const MyOrders = () => {
                 </div>
 
                 <div className="pt-4 border-t border-gray-200">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
                     <div>
                       <p className="text-gray-600 mb-1">Delivery Address:</p>
                       <p className="font-semibold text-gray-900">
@@ -280,9 +342,166 @@ const MyOrders = () => {
                       )}
                     </div>
                   </div>
+                  
+                  {/* Edit and Delete Buttons */}
+                  <div className="flex gap-3 mt-4">
+                    <button
+                      onClick={() => handleEdit(order)}
+                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => setShowDeleteConfirm(order._id || order.id)}
+                      className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Edit Order Modal */}
+        {editingOrder && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900">Edit Order</h2>
+                  <button
+                    onClick={() => {
+                      setEditingOrder(null);
+                      setEditFormData({});
+                    }}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Customer Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={editFormData.customerName}
+                    onChange={(e) => setEditFormData({ ...editFormData, customerName: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    value={editFormData.customerPhone}
+                    onChange={(e) => setEditFormData({ ...editFormData, customerPhone: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Address <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={editFormData.customerAddress}
+                    onChange={(e) => setEditFormData({ ...editFormData, customerAddress: e.target.value })}
+                    rows="3"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={editFormData.city}
+                      onChange={(e) => setEditFormData({ ...editFormData, city: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Postal Code
+                    </label>
+                    <input
+                      type="text"
+                      value={editFormData.postalCode}
+                      onChange={(e) => setEditFormData({ ...editFormData, postalCode: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingOrder(null);
+                      setEditFormData({});
+                    }}
+                    className="flex-1 btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 btn-primary"
+                  >
+                    Update Order
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Delete Order</h2>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to delete this order? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="flex-1 btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDelete(showDeleteConfirm)}
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

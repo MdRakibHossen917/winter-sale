@@ -245,5 +245,128 @@ router.put('/:id/status', [
   }
 });
 
+// Update order (full update) - for Firebase users, check by email
+router.put('/:id', [
+  body('items').optional().isArray(),
+  body('totalAmount').optional().isNumeric(),
+  body('customerName').optional().notEmpty(),
+  body('customerEmail').optional().isEmail(),
+  body('customerPhone').optional().notEmpty(),
+  body('customerAddress').optional().notEmpty()
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: errors.array()
+      });
+    }
+
+    const order = await OrderModel.getOrderById(req.params.id);
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    // Check ownership by email (for Firebase users)
+    const userEmail = req.body.userEmail || req.body.customerEmail;
+    if (order.customerEmail !== userEmail && order.userEmail !== userEmail && order.userId !== userEmail) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. You can only update your own orders.'
+      });
+    }
+
+    // Recalculate total if items changed
+    let totalAmount = req.body.totalAmount;
+    if (req.body.items && req.body.items.length > 0) {
+      totalAmount = req.body.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    const updateData = {
+      ...(req.body.items && { items: req.body.items }),
+      ...(totalAmount && { totalAmount }),
+      ...(req.body.customerName && { customerName: req.body.customerName }),
+      ...(req.body.customerEmail && { customerEmail: req.body.customerEmail }),
+      ...(req.body.customerPhone && { customerPhone: req.body.customerPhone }),
+      ...(req.body.customerAddress && { customerAddress: req.body.customerAddress }),
+      ...(req.body.city && { city: req.body.city }),
+      ...(req.body.postalCode && { postalCode: req.body.postalCode }),
+      ...(req.body.paymentMethod && { paymentMethod: req.body.paymentMethod })
+    };
+
+    const updatedOrder = await OrderModel.updateOrder(req.params.id, updateData);
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Order updated successfully',
+      order: updatedOrder
+    });
+  } catch (error) {
+    console.error('Update order error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update order',
+      error: error.message
+    });
+  }
+});
+
+// Delete order - for Firebase users, check by email
+router.delete('/:id', async (req, res) => {
+  try {
+    const order = await OrderModel.getOrderById(req.params.id);
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    // Check ownership by email (for Firebase users)
+    const userEmail = req.query.email || req.body.email;
+    if (userEmail && order.customerEmail !== userEmail && order.userEmail !== userEmail && order.userId !== userEmail) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. You can only delete your own orders.'
+      });
+    }
+
+    const result = await OrderModel.deleteOrder(req.params.id);
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Order deleted successfully'
+    });
+  } catch (error) {
+    console.error('Delete order error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete order',
+      error: error.message
+    });
+  }
+});
+
 export default router;
 

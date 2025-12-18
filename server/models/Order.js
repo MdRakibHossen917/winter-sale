@@ -132,6 +132,48 @@ export const OrderModel = {
       console.error('Error getting all orders:', error);
       throw error;
     }
+  },
+
+  // Update order (full update)
+  updateOrder: async (orderId, updateData) => {
+    try {
+      const db = getDB();
+      const ordersCollection = db.collection('orders');
+      
+      const update = {
+        ...updateData,
+        updatedAt: new Date()
+      };
+      
+      const result = await ordersCollection.updateOne(
+        { _id: new ObjectId(orderId) },
+        { $set: update }
+      );
+      
+      if (result.matchedCount === 0) {
+        return null;
+      }
+      
+      return await ordersCollection.findOne({ _id: new ObjectId(orderId) });
+    } catch (error) {
+      console.error('Error updating order:', error);
+      throw error;
+    }
+  },
+
+  // Delete order
+  deleteOrder: async (orderId) => {
+    try {
+      const db = getDB();
+      const ordersCollection = db.collection('orders');
+      
+      const result = await ordersCollection.deleteOne({ _id: new ObjectId(orderId) });
+      
+      return result;
+    } catch (error) {
+      console.error('Error deleting order:', error);
+      throw error;
+    }
   }
 };
 

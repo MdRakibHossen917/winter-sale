@@ -169,6 +169,51 @@ export const ordersAPI = {
       method: 'PUT',
       body: JSON.stringify({ status, transactionId }),
     });
+  },
+
+  update: async (id, orderData) => {
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || errorData.error || 'Failed to update order');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Update order error:', error);
+      throw error;
+    }
+  },
+
+  delete: async (id, email) => {
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${API_BASE_URL}/orders/${id}?email=${encodeURIComponent(email)}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || errorData.error || 'Failed to delete order');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Delete order error:', error);
+      throw error;
+    }
   }
 };
 
