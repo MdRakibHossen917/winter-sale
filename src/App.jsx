@@ -2,7 +2,6 @@ import { Toaster } from 'react-hot-toast';
 import AuthProvider from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Router from './routes/Router';
-import FirebaseConfigWarning from './components/FirebaseConfigWarning';
 import ServerStatus from './components/ServerStatus';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <ServerStatus />
-        <FirebaseConfigWarning />
         <Router />
         <Toaster
           position="top-right"

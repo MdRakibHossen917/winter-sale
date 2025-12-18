@@ -4,7 +4,13 @@ const FirebaseConfigWarning = () => {
   const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
-    // Check if Firebase is properly configured
+    // Hide warning in production
+    if (import.meta.env.PROD) {
+      setShowWarning(false);
+      return;
+    }
+
+    // Check if Firebase is properly configured (only in development)
     const checkConfig = () => {
       // Check new environment variable names (VITE_apiKey, etc.)
       const apiKey = import.meta.env.VITE_apiKey || import.meta.env.VITE_FIREBASE_API_KEY;

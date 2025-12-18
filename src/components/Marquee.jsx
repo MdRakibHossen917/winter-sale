@@ -10,7 +10,7 @@ const Marquee = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-red-600 via-orange-500 to-red-600 text-white py-2 overflow-hidden relative">
+    <div className="bg-gradient-to-r from-primary-700 via-primary-800 to-primary-900 text-white py-2 overflow-hidden relative">
       <div className="flex animate-marquee whitespace-nowrap">
         {/* First set of offers */}
         {offers.map((offer, index) => (
