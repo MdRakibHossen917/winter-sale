@@ -33,3 +33,17 @@
     @apply text-lg text-gray-600 mb-8 max-w-2xl mx-auto;
   }
 }
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}

@@ -69,9 +69,6 @@ const FirebaseConfigWarning = () => {
             <p className="text-sm mb-2 text-right">
               Login করতে Firebase configure করতে হবে। <strong>START_HERE.md</strong> file দেখুন।
             </p>
-            <p className="text-xs opacity-90 text-right">
-              30% discount
-            </p>
           </div>
         </div>
       </div>
