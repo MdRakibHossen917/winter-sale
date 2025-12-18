@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
 import { formatPrice } from '../utils/products';
 import { ordersAPI } from '../utils/api';
@@ -136,7 +137,13 @@ const MyOrders = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <Helmet>
+        <title>My Orders - PureTasteBD</title>
+        <meta name="description" content="View all your past orders and track their status." />
+        <meta name="keywords" content="my orders, order history, track orders, PureTasteBD" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">My Orders</h1>
@@ -280,6 +287,7 @@ const MyOrders = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

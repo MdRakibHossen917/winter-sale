@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import CartItem from '../components/CartItem';
@@ -32,8 +33,14 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <Helmet>
+        <title>Shopping Cart - PureTasteBD</title>
+        <meta name="description" content="Review your shopping cart items. Proceed to checkout to complete your order." />
+        <meta name="keywords" content="shopping cart, cart, checkout, order, PureTasteBD" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-2 text-gray-900">Shopping Cart</h1>
           <p className="text-gray-600">Review your items before checkout</p>
@@ -80,6 +87,7 @@ const Cart = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

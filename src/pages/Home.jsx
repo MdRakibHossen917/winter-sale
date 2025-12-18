@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
 import FlashSaleProductCard from '../components/FlashSaleProductCard';
 import { products } from '../utils/products';
@@ -55,8 +56,17 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
+    <>
+      <Helmet>
+        <title>PureTasteBD - Pure Products & Imported Drinks | Winter Sale</title>
+        <meta name="description" content="Experience the authentic taste of Bangladesh with our premium quality products - mustard oil, pure desi ghee, fresh butter, milk, pure honey, and imported beverages. Direct from farmers & premium brands." />
+        <meta name="keywords" content="mustard oil, desi ghee, pure products, imported drinks, Bangladesh, winter sale, pure honey, fresh butter" />
+        <meta property="og:title" content="PureTasteBD - Pure Products & Imported Drinks" />
+        <meta property="og:description" content="Premium quality products direct from farmers. 100% pure and natural." />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="min-h-screen">
+        {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-12 md:py-12 overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
@@ -295,7 +305,8 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

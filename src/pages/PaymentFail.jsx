@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
@@ -6,7 +7,13 @@ const PaymentFail = () => {
   const errorMsg = searchParams.get('error') || 'Payment was unsuccessful';
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white flex items-center">
+    <>
+      <Helmet>
+        <title>Payment Failed - PureTasteBD</title>
+        <meta name="description" content="Payment was unsuccessful. Please try again or contact support." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white flex items-center">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-red-100 rounded-full mb-6">
@@ -36,6 +43,7 @@ const PaymentFail = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import SocialLogin from '../components/SocialLogin';
 
 const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -134,7 +136,13 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gray-50 flex items-center">
+    <>
+      <Helmet>
+        <title>Register - PureTasteBD</title>
+        <meta name="description" content="Create a new account with PureTasteBD to start shopping for premium quality products." />
+        <meta name="keywords" content="register, sign up, create account, PureTasteBD" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gray-50 flex items-center">
       <div className="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">Register</h2>
@@ -223,6 +231,7 @@ const Register = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

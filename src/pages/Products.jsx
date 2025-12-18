@@ -1,9 +1,16 @@
+import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
 import { products } from '../utils/products';
 
 const Products = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <Helmet>
+        <title>Products - PureTasteBD | All Products</title>
+        <meta name="description" content="Browse our complete collection of premium products - mustard oil, ghee, butter, milk, honey, nuts, fruits, and imported drinks." />
+        <meta name="keywords" content="products, mustard oil, ghee, butter, milk, honey, nuts, fruits, imported drinks" />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -24,7 +31,8 @@ const Products = () => {
           ))}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

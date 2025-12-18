@@ -51,7 +51,7 @@ export const products = [
     description: '100% pure, raw honey collected from natural beehives. Rich in antioxidants, enzymes, and natural sugars. No additives or processing. Perfect for health benefits and natural sweetness.',
     descriptionBn: 'প্রাকৃতিক মৌচাক থেকে সংগ্রহ করা ১০০% খাঁটি, কাঁচা মধু। অ্যান্টিঅক্সিডেন্ট, এনজাইম এবং প্রাকৃতিক চিনিতে সমৃদ্ধ। কোন অ্যাডিটিভ বা প্রক্রিয়াজাতকরণ নেই। স্বাস্থ্য উপকারিতা এবং প্রাকৃতিক মিষ্টতার জন্য নিখুঁত।',
     price: 600,
-    image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&h=600&fit=crop',
+    image: 'https://i.ibb.co.com/zT4RkKKM/front-view-honey-dipper-dripping-honey-honeycomb.jpg',
     category: 'honey',
     inStock: true
   },

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -395,7 +396,13 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <Helmet>
+        <title>Checkout - PureTasteBD</title>
+        <meta name="description" content="Complete your order. Enter your delivery details and payment information to proceed." />
+        <meta name="keywords" content="checkout, payment, order, PureTasteBD" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-bold mb-8 text-gray-900">Checkout</h1>
 
@@ -611,6 +618,7 @@ const Checkout = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

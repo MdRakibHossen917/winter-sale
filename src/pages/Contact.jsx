@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 
 const Contact = () => {
@@ -52,13 +53,19 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact Us
-          </h1>
+    <>
+      <Helmet>
+        <title>Contact Us - PureTasteBD</title>
+        <meta name="description" content="Get in touch with PureTasteBD. Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible." />
+        <meta name="keywords" content="contact, support, help, PureTasteBD, customer service" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Contact Us
+            </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
@@ -241,7 +248,8 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

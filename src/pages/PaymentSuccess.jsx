@@ -29,7 +29,13 @@ const PaymentSuccess = () => {
   }, [countdown, navigate]);
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white flex items-center">
+    <>
+      <Helmet>
+        <title>Payment Successful - PureTasteBD</title>
+        <meta name="description" content="Your payment has been processed successfully. Thank you for your order!" />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white flex items-center">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
@@ -71,6 +77,7 @@ const PaymentSuccess = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

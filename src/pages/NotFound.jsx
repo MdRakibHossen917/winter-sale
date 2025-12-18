@@ -1,8 +1,15 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <>
+      <Helmet>
+        <title>404 - Page Not Found | PureTasteBD</title>
+        <meta name="description" content="The page you're looking for doesn't exist." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center">
         <h1 className="text-9xl font-bold text-primary-600 mb-4">404</h1>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Page Not Found</h2>
@@ -14,6 +21,7 @@ const NotFound = () => {
         </Link>
       </div>
     </div>
+    </>
   );
 };
 

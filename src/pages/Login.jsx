@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -142,7 +143,13 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gray-50 flex items-center">
+    <>
+      <Helmet>
+        <title>Login - PureTasteBD</title>
+        <meta name="description" content="Login to your PureTasteBD account to access your orders and enjoy a seamless shopping experience." />
+        <meta name="keywords" content="login, sign in, PureTasteBD, account" />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gray-50 flex items-center">
       <div className="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">Login</h2>
@@ -198,6 +205,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

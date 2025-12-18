@@ -164,7 +164,7 @@ export const ProductModel = {
           description: '100% pure, raw honey collected from natural beehives.',
           descriptionBn: 'প্রাকৃতিক মৌচাক থেকে সংগ্রহ করা ১০০% খাঁটি, কাঁচা মধু।',
           price: 600,
-          image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&h=600&fit=crop',
+          image: 'https://i.ibb.co.com/zT4RkKKM/front-view-honey-dipper-dripping-honey-honeycomb.jpg',
           category: 'honey',
           inStock: true,
           createdAt: new Date(),

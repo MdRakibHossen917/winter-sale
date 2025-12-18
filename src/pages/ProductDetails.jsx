@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getProductById, formatPrice } from '../utils/products';
 import { useCart } from '../context/CartContext';
 import NotFound from './NotFound';
@@ -26,8 +27,14 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <Helmet>
+        <title>{product ? `${product.name} - PureTasteBD` : 'Product Not Found - PureTasteBD'}</title>
+        <meta name="description" content={product ? `${product.description} - ${product.nameBn}. Price: ${formatPrice(product.price)}` : 'Product not found'} />
+        <meta name="keywords" content={product ? `${product.name}, ${product.nameBn}, ${product.category}, PureTasteBD` : 'product not found'} />
+      </Helmet>
+      <div className="min-h-screen py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => navigate(-1)}
           className="mb-6 text-primary-600 hover:text-primary-800 font-semibold flex items-center gap-2 group transition-colors"
@@ -134,6 +141,7 @@ const ProductDetails = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
